@@ -42,22 +42,22 @@ public class DataInitializer implements CommandLineRunner {
                 return userRepository.save(u);
             });
 
-            // Find or create Company
+            // Create Company for Employer
             Company company = companyRepository.findByUser(employer).orElseGet(() -> {
                 Company c = new Company();
                 c.setUser(employer);
-                c.setName("Google");
-                c.setDescription("A global technology leader.");
-                c.setLocation("Mountain View, CA");
+                c.setName("Google India");
+                c.setDescription("A global technology leader with a strong presence in India.");
+                c.setLocation("Bangalore, India");
                 c.setWebsite("https://google.com");
                 return companyRepository.save(c);
             });
 
             // Add Job Listings
-            addJob(company, "Software Engineer", "Develop next-gen technologies.", "Mountain View, CA", "FULL_TIME", "$120k - $180k", "2026-12-31");
-            addJob(company, "Product Manager", "Lead product strategies.", "Bangalore, India", "FULL_TIME", "$80k - $150k", "2026-11-30");
-            addJob(company, "UX Designer", "Design beautiful user experiences.", "Remote", "PART_TIME", "$50k - $90k", "2026-10-15");
-            addJob(company, "Data Scientist", "Analyze complex data sets.", "London, UK", "INTERNSHIP", "$40/hr", "2026-09-01");
+            addJob(company, "Software Engineer", "Develop next-gen technologies.", "Bangalore, India", "FULL_TIME", "₹18L - ₹25L", "2026-12-31");
+            addJob(company, "Product Manager", "Lead product strategies.", "Mumbai, India", "FULL_TIME", "₹15L - ₹22L", "2026-11-30");
+            addJob(company, "UX Designer", "Design beautiful user experiences.", "Pune, India", "PART_TIME", "₹8L - ₹12L", "2026-10-15");
+            addJob(company, "Data Scientist", "Analyze complex data sets.", "Remote", "INTERNSHIP", "₹50k/mo", "2026-09-01");
             
             System.out.println("Default job listings initialized successfully!");
         }

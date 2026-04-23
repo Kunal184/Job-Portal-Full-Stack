@@ -38,44 +38,83 @@ function JobDetails() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (!job) return <div>Job not found</div>;
+  if (loading) return (
+    <div className="flex justify-center py-40">
+      <div className="w-6 h-6 border-2 border-black/10 border-t-black rounded-full animate-spin"></div>
+    </div>
+  );
+  
+  if (!job) return <div className="p-12 text-center text-muted italic">Role not found.</div>;
+
+  const formatEnum = (str) => {
+    if (!str) return '';
+    return str.toLowerCase().replace('_', ' ');
+  };
 
   return (
     <>
       <Navbar />
-      <div className="max-w-4xl mx-auto p-6 mt-10">
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
-          <div className="bg-blue-600 p-10 text-white">
-            <div className="flex justify-between items-center mb-6">
-              <span className="bg-blue-400 bg-opacity-30 px-4 py-1 rounded-full text-sm font-semibold backdrop-blur-sm">{job.jobType}</span>
-              <span className="text-blue-100 text-sm">Posted on {new Date(job.createdAt).toLocaleDateString()}</span>
+      <div className="max-w-[1000px] mx-auto p-12 mt-12 pb-32">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 mb-20 border-b border-black/[0.08] pb-16">
+          <div className="max-w-2xl">
+            <div className="badge-dot mb-6">
+              <div className="dot bg-black"></div>
+              <span>{formatEnum(job.jobType)}</span>
             </div>
-            <h1 className="text-4xl font-extrabold mb-2">{job.title}</h1>
-            <p className="text-xl text-blue-100">{job.company.name} • {job.location}</p>
+            <h1 className="text-6xl font-bold mb-6 tracking-tighter leading-tight">{job.title}</h1>
+            <p className="text-2xl text-muted font-medium mb-2">{job.company.name}</p>
+            <p className="text-sm text-muted uppercase tracking-[0.2em]">{job.location}</p>
           </div>
-          
-          <div className="p-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
-              <div className="bg-slate-50 p-6 rounded-2xl">
-                <h3 className="text-gray-500 text-sm font-bold uppercase tracking-wider mb-2">Salary Range</h3>
-                <p className="text-2xl font-bold text-gray-800">{job.salaryRange}</p>
-              </div>
-              <div className="bg-slate-50 p-6 rounded-2xl">
-                <h3 className="text-gray-500 text-sm font-bold uppercase tracking-wider mb-2">Deadline</h3>
-                <p className="text-2xl font-bold text-gray-800">{job.deadline}</p>
-              </div>
+          <div className="lg:text-right space-y-2">
+            <p className="text-xs text-muted uppercase tracking-widest leading-none">Status</p>
+            <p className="text-sm font-bold">Open for applications</p>
+            <div className="pt-4">
+              <p className="text-xs text-muted uppercase tracking-widest leading-none">Posted</p>
+              <p className="text-sm font-medium">{new Date(job.createdAt).toLocaleDateString()}</p>
             </div>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          <div className="lg:col-span-8">
+            <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-muted mb-8 italic italic-font">Description</h2>
+            <div className="text-lg leading-[1.8] text-app-fg/90 whitespace-pre-wrap max-w-2xl">
+              {job.description}
+            </div>
+            
+            <div className="mt-24 flex gap-6">
+              <button 
+                onClick={handleApply} 
+                className="px-12 py-5 bg-app-fg text-app-bg font-bold hover:bg-zinc-800 transition-all card-hover text-sm uppercase tracking-widest"
+              >
+                Apply for this role
+              </button>
+              <button 
+                onClick={() => navigate(-1)} 
+                className="px-8 py-5 border border-black/[0.12] text-app-fg font-bold hover:bg-black hover:text-white transition-all text-sm uppercase tracking-widest"
+              >
+                Go back
+              </button>
+            </div>
+          </div>
 
-            <div className="prose max-w-none mb-10">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Description</h2>
-              <p className="text-gray-600 leading-relaxed whitespace-pre-wrap">{job.description}</p>
+          <div className="lg:col-span-4 lg:border-l border-black/[0.08] lg:pl-12 space-y-12 pt-4">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted mb-4">Salary Range</p>
+              <p className="text-xl font-medium tracking-tight">{job.salaryRange}</p>
             </div>
-
-            <div className="flex flex-col md:flex-row gap-4 border-t pt-10">
-              <button onClick={handleApply} className="flex-1 bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-700 transition shadow-lg shadow-blue-200">Apply for this position</button>
-              <button onClick={() => navigate(-1)} className="px-8 py-4 rounded-2xl font-bold text-gray-500 hover:bg-gray-100 transition">Go Back</button>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted mb-4">Application Deadline</p>
+              <p className="text-xl font-medium tracking-tight">{job.deadline}</p>
             </div>
+            {job.company.website && (
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted mb-4">Company site</p>
+                <a href={job.company.website} target="_blank" rel="noreferrer" className="text-sm border-b border-black/10 hover:border-black transition-all font-semibold">
+                  {job.company.website.replace('https://', '')}
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>

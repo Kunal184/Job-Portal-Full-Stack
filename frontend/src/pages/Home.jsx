@@ -7,70 +7,73 @@ function Home() {
   return (
     <>
       <Navbar />
-      <div className="relative overflow-hidden bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-            <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-              <div className="sm:text-center lg:text-left">
-                <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                  <span className="block xl:inline">Find your next</span>{' '}
-                  <span className="block text-blue-600 xl:inline">dream career</span>
-                </h1>
-                <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto lg:mx-0">
-                  Join thousands of professionals and employers on JobPortal. Whether you're looking for your first internship or your next leadership role, we've got you covered.
-                </p>
-                <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                  <div className="rounded-md shadow">
-                    <Link to="/jobs" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
-                      Browse Jobs
-                    </Link>
-                  </div>
-                  {!user && (
-                    <div className="mt-3 sm:mt-0 sm:ml-3">
-                      <Link to="/register" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 md:py-4 md:text-lg md:px-10">
-                        Join Now
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </main>
-          </div>
-        </div>
-        <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-          <div className="h-56 w-full bg-blue-50 sm:h-72 md:h-96 lg:w-full lg:h-full flex items-center justify-center">
-             <div className="text-92px text-blue-200 font-bold opacity-30 select-none animate-pulse">JOB PORTAL</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-slate-50 py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:text-center">
-            <h2 className="text-base text-blue-600 font-semibold tracking-wide uppercase">Features</h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              A better way to hire and get hired
+      <main className="px-8 pt-24 pb-32 max-w-[1400px] mx-auto">
+        {/* Asymmetric Hero Section */}
+        <section className="flex flex-col lg:flex-row gap-20 items-start">
+          <div className="flex-1 max-w-4xl">
+            <h1 className="text-[clamp(3rem,8vw,5.5rem)] leading-[0.9] font-bold text-app-fg mb-10">
+              The modern way <br />
+              <span className="text-muted italic font-medium">to build your</span> <br />
+              working life.
+            </h1>
+            <p className="text-xl text-muted max-w-xl mb-12 leading-relaxed">
+              A curated platform for high-impact roles. No clutter, no noise. Just the next step in your professional narrative.
             </p>
+            <div className="flex flex-wrap gap-4">
+              <Link to="/jobs" className="px-8 py-4 bg-app-fg text-app-bg font-medium hover:bg-zinc-800 transition-all card-hover">
+                Explore listings
+              </Link>
+              {!user && (
+                <Link to="/register" className="px-8 py-4 border border-black/[0.12] text-app-fg font-medium hover:bg-black hover:text-white transition-all card-hover">
+                  Join the platform
+                </Link>
+              )}
+            </div>
           </div>
+          
+          {/* Decorative Asymmetric Element */}
+          <div className="hidden lg:block w-full lg:w-[400px] h-[600px] bg-zinc-100 p-12 relative border border-black/[0.05]">
+             <div className="absolute top-12 left-[-40px] bg-white p-8 border border-black/[0.08] max-w-[280px] card-hover">
+               <div className="flex items-center gap-2 mb-4">
+                 <div className="dot bg-green-500"></div>
+                 <span className="text-[10px] uppercase tracking-widest text-muted">active now</span>
+               </div>
+               <p className="text-sm font-semibold mb-1">Senior Product Designer</p>
+               <p className="text-xs text-muted">Mountain View, CA • $140k+</p>
+             </div>
+             
+             <div className="h-full flex flex-col justify-end">
+                <span className="text-[120px] font-bold text-zinc-200 leading-none select-none">01</span>
+                <p className="text-xs uppercase tracking-[0.2em] text-muted mt-4">Curated opportunities</p>
+             </div>
+          </div>
+        </section>
 
-          <div className="mt-20">
-            <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
-              {[
-                { name: 'For Seekers', desc: 'Build a profile, upload your resume, and apply to top companies with one click.' },
-                { name: 'For Employers', desc: 'Post job listings, manage applications, and find the perfect fit for your team.' },
-                { name: 'Real-time Updates', desc: 'Track your application status in real-time from your personal dashboard.' }
-              ].map((feature) => (
-                <div key={feature.name} className="relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                  <dt>
-                    <p className="text-lg leading-6 font-bold text-gray-900">{feature.name}</p>
-                  </dt>
-                  <dd className="mt-2 text-base text-gray-500">{feature.desc}</dd>
-                </div>
-              ))}
-            </dl>
+        {/* Dynamic Feature Grid - Asymmetric */}
+        <section className="mt-48">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-5 pt-8">
+              <h2 className="text-3xl font-bold mb-6">Designed for clarity.</h2>
+              <p className="text-muted leading-relaxed">
+                We believe that finding a job shouldn't feel like a job. Our interface is stripped back to focus on what matters: the work, the team, and the mission.
+              </p>
+            </div>
+            
+            <div className="lg:col-span-1"></div>
+
+            <div className="lg:col-span-6 space-y-12">
+              <div className="border-t border-black/[0.08] pt-8 group">
+                <span className="text-xs font-bold text-muted mb-4 block group-hover:text-foreground transition-colors uppercase tracking-widest">01 / Seekers</span>
+                <p className="text-xl font-medium mb-4">Single-click application flow with personalized dashboards to track every detail of your journey.</p>
+              </div>
+              <div className="border-t border-black/[0.08] pt-8 group">
+                <span className="text-xs font-bold text-muted mb-4 block group-hover:text-foreground transition-colors uppercase tracking-widest">02 / Employers</span>
+                <p className="text-xl font-medium mb-4">Sophisticated talent management tools that respect your time and prioritize the right candidates.</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
     </>
   );
 }

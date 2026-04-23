@@ -28,37 +28,72 @@ function Jobs() {
     fetchJobs(search);
   };
 
+  const formatEnum = (str) => {
+    if (!str) return '';
+    return str.toLowerCase().replace('_', ' ');
+  };
+
   return (
     <>
       <Navbar />
-      <div className="max-w-6xl mx-auto p-6">
-        <header className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
-          <h1 className="text-4xl font-extrabold text-gray-900">Explore Opportunities</h1>
-          <form onSubmit={handleSearch} className="flex w-full md:w-auto gap-2">
-            <input type="text" placeholder="Search by title or location..." className="p-3 border border-gray-200 rounded-xl w-full md:w-80 outline-none focus:ring-2 focus:ring-blue-500 shadow-sm" value={search} onChange={(e) => setSearch(e.target.value)} />
-            <button className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-100">Search</button>
+      <div className="max-w-[1400px] mx-auto p-12">
+        <header className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12 border-b border-black/[0.08] pb-12">
+          <div className="max-w-xl">
+            <h1 className="text-5xl font-bold mb-4 tracking-tighter">Opportunities</h1>
+            <p className="text-muted text-lg">Browse a selection of roles curated for clarity and purpose.</p>
+          </div>
+          <form onSubmit={handleSearch} className="flex w-full md:w-auto gap-4">
+            <input 
+              type="text" 
+              placeholder="Title or location..." 
+              className="px-6 py-4 border border-black/[0.12] rounded-none w-full md:w-96 outline-none focus:border-black transition-all bg-transparent text-sm" 
+              value={search} 
+              onChange={(e) => setSearch(e.target.value)} 
+            />
+            <button className="bg-app-fg text-app-bg px-10 py-4 font-semibold hover:bg-zinc-800 transition-all text-sm uppercase tracking-widest leading-none">Filter</button>
           </form>
         </header>
 
         {loading ? (
-          <div className="flex justify-center py-20"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div></div>
+          <div className="flex justify-center py-40">
+            <div className="w-6 h-6 border-2 border-black/10 border-t-black rounded-full animate-spin"></div>
+          </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {jobs.map(job => (
-              <div key={job.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                <div className="flex justify-between items-start mb-4">
-                  <span className="bg-blue-50 text-blue-600 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">{job.jobType}</span>
-                  <span className="text-gray-400 text-sm">{job.location}</span>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-24">
+            {jobs.map((job, index) => (
+              <div 
+                key={job.id} 
+                className={`group border-t border-black/[0.08] pt-10 card-hover ${index % 3 === 0 ? 'lg:col-span-1' : ''}`}
+              >
+                <div className="flex justify-between items-center mb-6">
+                  <div className="badge-dot">
+                    <div className={`dot ${job.jobType === 'FULL_TIME' ? 'bg-zinc-900' : 'bg-zinc-300'}`}></div>
+                    <span>{formatEnum(job.jobType)}</span>
+                  </div>
+                  <span className="text-[11px] uppercase tracking-[0.2em] text-muted">{job.location}</span>
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">{job.title}</h3>
-                <p className="text-gray-500 line-clamp-2 text-sm mb-4">{job.description}</p>
-                <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-50">
-                  <span className="font-bold text-blue-600">{job.salaryRange}</span>
-                  <Link to={`/jobs/${job.id}`} className="text-blue-600 font-semibold hover:text-blue-800 flex items-center gap-1">Details →</Link>
+                
+                <Link to={`/jobs/${job.id}`}>
+                  <h3 className="text-3xl font-bold mb-4 group-hover:underline underline-offset-8 decoration-1 decoration-black/20 decoration-dashed transition-all">
+                    {job.title}
+                  </h3>
+                </Link>
+                <p className="text-muted line-clamp-2 mb-8 leading-relaxed max-w-lg">{job.description}</p>
+                
+                <div className="flex justify-between items-center mt-auto">
+                  <span className="text-sm font-semibold tracking-tight">{job.salaryRange}</span>
+                  <Link 
+                    to={`/jobs/${job.id}`} 
+                    className="text-xs font-bold uppercase tracking-widest py-2 border-b border-black/10 hover:border-black transition-all"
+                  >
+                    View Role
+                  </Link>
                 </div>
               </div>
             ))}
-            {jobs.length === 0 && <p className="col-span-full text-center text-gray-500 py-10 text-lg">No jobs found matching your search.</p>}
+            {jobs.length === 0 && (
+              <p className="col-span-full text-center text-muted py-20 text-lg italic italic-font">No matches found.</p>
+            )}
           </div>
         )}
       </div>
